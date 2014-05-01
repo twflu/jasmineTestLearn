@@ -57,4 +57,26 @@ describe('person test', function(){
         jasmine.Clock.tick(500);
         expect(callBack).toHaveBeenCalled();
     });
+
+
+    it('async support', function(){
+        var flag = false;
+        runs(function(){
+            value = 0;
+            setTimeout(function(){
+                flag = true;
+            }, 500)
+        });
+
+        waitsFor(function(){
+            value++;
+            return flag
+        }, 'failed', 1000);
+
+        runs(function(){
+            console.log('value:',value);
+            expect(value).toBeGreaterThan(0);
+        });
+
+    });
 });
